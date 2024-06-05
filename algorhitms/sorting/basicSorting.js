@@ -77,6 +77,9 @@ function countingSort(arr) {
 
 
 
-let arr = [56,13,68,87,1,4,6,987,12];
-bubbleSort(arr);
-console.log(arr);
+// let arr = [56,13,68,87,1,4,6,987,12];
+// bubbleSort(arr);
+// console.log(arr);
+
+
+export {insertionSort, bubbleSort, selectionSort, countingSort}
