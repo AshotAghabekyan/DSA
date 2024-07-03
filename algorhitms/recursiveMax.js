@@ -8,7 +8,7 @@ function getRecursiveMax(arr, index = 1, maxNumber = arr[0]) {
     if (arr[index] > maxNumber) {
         maxNumber = arr[index];
     }
-    return getMax(arr, ++index, maxNumber); 
+    return getRecursiveMax(arr, ++index, maxNumber); 
 }
 
 
