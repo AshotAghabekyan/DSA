@@ -1,51 +1,5 @@
 
 
-//Queue data structure FIFO
-class Queue<T> {
-    readonly arr: T[];
-    private head: number;
-    private tail: number;
-    private capacity: number;
-
-    constructor(size: number) {
-        this.capacity = size;
-        this.tail = 0;
-        this.head = 0;
-        this.arr = new Array<T>(size);
-    }
-
-    public enqueue(value: T): void {
-        if (this.tail == this.capacity) {
-            throw new Error("queue overflow!");
-        }
-
-        this.arr[this.tail] = value;
-        ++this.tail;
-    }
-
-    public dequeue(): void {
-        if (this.tail <= 0) {
-            throw new Error("queue underflow");
-        }
-
-        for (let i = 0; i < this.capacity; ++i) {
-            this.arr[i] = this.arr[i + 1];
-        }
-        --this.tail;
-    }
-}
-
-
-const queue: Queue<number> = new Queue<number>(10);
-// queue.enqueue(10);
-// queue.enqueue(20);
-// queue.enqueue(30);
-// queue.enqueue(40);
-// queue.enqueue(50);
-// queue.enqueue(60);
-// console.log(queue.arr);
-// queue.dequeue();
-// console.log(queue.arr);
 
 
 //Double Ended Queue;
@@ -83,6 +37,7 @@ class Deque<T> {
         ++this.tail;
     }
 
+
     public popFront(): void {
         if (this.tail == 0) {
             throw new Error("queue underflow");
@@ -102,7 +57,7 @@ class Deque<T> {
             throw new Error("queue underflow");
         }
 
-        this.arr.splice(this.tail -1, 1);
+        this.arr.splice(this.tail, 1);
         --this.tail;
     }
 }

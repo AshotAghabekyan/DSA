@@ -305,27 +305,299 @@ Example 2:
 /**
  * 53. Maximum Subarray
  */
-function maxSubArray(arr) {
-   if (arr.length == 1) {
-      return arr[0];
+// function maxSubArray(arr) {
+//    if (arr.length == 1) {
+//       return arr[0];
+//    }
+
+//    let isAllNegative = true;
+//    let sum = 0;
+//    let currentSum = 0;
+   
+//    for (let i = 0; i < arr.length; ++i) {
+//       if (arr[i] > 0) {
+//          isAllNegative = false;
+//       }
+
+//       currentSum += arr[i];
+//       if (currentSum < 0) {
+//          currentSum = 0;
+//       } else if (currentSum > sum) {
+//          sum = currentSum;
+//       }
+//    }
+
+//    return isAllNegative ? Math.max(...arr) : sum
+// }
+
+
+
+//------------------------------------------------------------------------------------
+
+// function isCharDublicate(str) {
+//    let obj = {};
+
+//    for (let i = 0; i < str.length; ++i) {
+//       if (!obj[str[i]]) {
+//          obj[str[i]] = 1;
+//       } else {
+//          return true;
+//       }
+//    }
+//    return false;
+// }
+
+
+// console.log(isCharDublicate("armeni"));
+
+
+
+//------------------------------------------------------------------------------------
+
+// function twoSum(arr, target) {
+//    let obj = {};
+
+//    for (let i = 0; i < arr.length; ++i) {
+//       obj[target - arr[i]] = i;
+//    }
+
+//    for (let j = 0; j < arr.length; ++j) {
+//       if (obj[arr[j]] && obj[arr[j]] != j) {
+//          return [j, obj[arr[j]]]
+//       }
+//    }
+// }
+
+
+// console.log(twoSum([2,7,11,15], 9));
+
+
+//------------------------------------------------------------------------------------
+
+
+
+// function countingSort(arr) {
+
+//    const max = Math.max(...arr);
+//    const countArr = new Array(max + 1);
+//    const result = new Array(arr.length);
+
+//    countArr.fill(0);
+//    for (let i = 0; i < arr.length; ++i) {
+//       ++countArr[arr[i]]
+//    }
+
+//    for (let i = 1; i < countArr.length; ++i) {
+//       countArr[i] += countArr[i -1];
+//    }
+
+//    for (let i = 0; i < arr.length; ++i) {
+//       const pos = countArr[arr[i]] -1;
+//       result[pos] = arr[i];
+//    }
+
+//    return result;
+// }
+
+
+// console.log(countingSort([4,2,2,8,3,3,1]))
+
+
+
+//------------------------------------------------------------------------------------
+
+
+//merge two linked list
+
+// class ListNode {
+//    constructor(val) {
+//       this.val = val;
+//       this.next = null;
+//    }
+// }
+
+// function mergeTwoLists(list1, list2) {    
+//    let tmpNode = new ListNode();
+//    let cur = tmpNode;
+
+//    while (list1 && list2) {
+//        if (list1.value < list2.value) {
+//            cur.next = list1;
+//            list1 = list1.next;
+//        } else {
+//            cur.next = list2;
+//            list2 = list2.next;
+//        }
+
+//        cur = cur.next;
+//    }
+
+//    cur.next = list1 || list2;
+//    return tmpNode.next;
+// };
+
+
+
+//verson 2//
+
+// function mergeTwoLists(list1, list2) {
+//    if (!list1) {
+//       return list2;
+//    }
+
+//    if (!list2) {
+//       return list1;
+//    }
+
+//    let result = new ListNode();
+//    let headNode = result;
+//    while (list1 && list2) {
+//       if (list1.val < list2.val) {
+//          result.next = list1;
+//          list1 = list1.next;
+//       } else {
+//          result.next = list2;
+//          list2 = list2.next;
+//       }
+//    }
+
+
+//    if (list1) {
+//       result.next = list1;
+//    }
+
+//    if (list2) {
+//       result.next = list2;
+//    }
+
+//    return headNode;
+// }
+
+
+//------------------------------------------------------------------------------------
+//191. Number of 1 Bits
+
+
+// var hammingWeight = function(n) {
+//    let count = 0;
+  
+//    while (n != 0) {
+//       if (n & 1) {
+//          ++count;
+//       }
+//       n = n >> 1;
+//    }
+//    return count;
+// };
+
+// console.log(hammingWeight(11));
+
+
+
+
+//------------------------------------------------------------------------------------
+/**
+ * 19. Remove Nth Node From End of List
+ */
+
+// var removeNthFromEnd = function(head, n) {
+//    let length = 0;
+//    let curr = head;
+
+//    for (length; curr != null; ++length) {
+//        curr = curr.next;
+//    }
+
+//    if (length == n) {
+//        return head.next;
+//    }
+
+//    let targetIndex = length - n;
+//    curr = head;
+//    for (let i = 0; i < targetIndex - 1; ++i) {
+//        curr = curr.next;
+//    }
+
+//    curr.next = curr.next.next;
+//    return head;
+// };  
+
+
+//version 2// 
+// var removeNthFromEnd = function(head, n) {
+//    let fast = new ListNode();
+//    let slow = new ListNode();
+
+//    for (let i = 0; i < n; ++i) {
+//       fast = fast.next;
+//    }
+
+//    if (!fast) {
+//       head = head.next;
+//       slow = null;
+//       return head;
+//    }
+
+//    while (fast && fast.next) {
+//       fast = fast.next;
+//       slow = slow.next;
+//    }
+
+//    removableNode = slow.next;
+//    slow = slow.next.next;
+//    removableNode = null;
+//    return head;
+// }
+
+
+
+//------------------------------------------------------------------------------------
+
+
+// function reverseBits(n) {
+//    let result = 0;
+
+//    for (let i = 0; i < 32; ++i) {
+//       result <<= 1;
+//       result |= (n & 1);
+//       n >> 1;
+//    }
+
+//    return result;
+// }
+
+
+//------------------------------------------------------------------------------------
+
+
+function reverseList(head) {
+   if (!head || head.next) {
+      return;
    }
 
-   let isAllNegative = true;
-   let sum = 0;
-   let currentSum = 0;
-
-   for (let i = 0; i < arr.length; ++i) {
-      if (arr[i] > 0) {
-         isAllNegative = false;
-      }
-
-      currentSum += arr[i];
-      if (currentSum < 0) {
-         currentSum = 0;
-      } else if (currentSum > sum) {
-         sum = currentSum;
-      }
+   let fast = head;
+   let slow = head;
+   while (fast!= null) {
+      fast = fast.next.next;
+      slow = slow.next;
    }
 
-   return isAllNegative ? Math.max(...arr) : sum
+   let curr = slow;
+   let prev = null;
+   let next = null;
+
+   while (curr != null) {
+      next = curr.next;
+      curr.next = prev;
+      prev = curr;
+   }
+
+   tmp1 = head;
+   tmp2 = null;
+
+   while (slow != null) {
+      tmp2 = tmp1.next;
+      tmp1.next = prev;
+   }
+
 }

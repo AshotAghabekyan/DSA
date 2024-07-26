@@ -6,6 +6,8 @@
  */
 
 
+
+
 class SplitedStack<T> {
     readonly arr: Array<T>;
     public leftCapacity: number;
@@ -38,8 +40,10 @@ class SplitedStack<T> {
             }
             this.leftCapacity = this.stackBorder;
             ++this.stackBorder;
-
+            return;
         }
+
+        throw new Error("cannot upgrade left stack size");
     }
 
 
