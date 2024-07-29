@@ -7,6 +7,7 @@ class Node {
 
     constructor(value) {
         this.value = value;
+        this.next = null;
     }
 }
 
@@ -67,8 +68,17 @@ class SLL {
         return this.head?.next? false : true;
     }
 
-    
-    reverse() {};
+    reverse() {
+        let dummyNode = new Node();
+        let curr = this.head;
+        while (curr != null) {
+            let nextTmp = curr.next;
+            curr.next = dummyNode.next;
+            dummyNode.next = curr;
+            curr = nextTmp;
+        }
+        this.head = dummyNode.next;
+    }
 
     merge(other_list) {
         let currNode = this.head;
@@ -111,14 +121,14 @@ class SLL {
 
 
 let singleLL = new SLL();
-// singleLL.push_front(5);
-// singleLL.push_front(4);
-// singleLL.push_front(3);
-// singleLL.push_front(2);
-// singleLL.push_front(1);
-// singleLL.sort();
-// singleLL.pop_front()
-// singleLL.print()
+singleLL.push_front(5);
+singleLL.push_front(4);
+singleLL.push_front(3);
+singleLL.push_front(2);
+singleLL.push_front(1);
+singleLL.print()
+singleLL.reverse()
+singleLL.print()
 
 
 

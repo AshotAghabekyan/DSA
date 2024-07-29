@@ -25,4 +25,32 @@ process.stdin.on("data", (data) => {
 })
 
 
+
+class TextEditor {
+    #undoStack;
+    #redoStack;
+    #text = "";
+
+    constructor() {
+        this.#redoStack = new Stack<string>(10);
+        this.#undoStack = new Stack<string>(10);
+    }
+
+    type(word) {
+        this.#undoStack.push(this.#text);
+        this.#text += word;
+    }
+
+    undo() {
+        let undoWord = this.#undoStack.top();
+        this.#redoStack.push(this.#text);
+        this.#text = undoWord;
+    }
+
+    redo() {
+        //...
+    }
+}
+
+
 //to be continue......

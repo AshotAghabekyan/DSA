@@ -48,7 +48,6 @@ class Deque<T> {
         }
 
         --this.tail;
-
     } 
 
 
