@@ -1,5 +1,5 @@
 import Stack from "../stack/stack.js";
-
+import Queue from "../queue/queue.js";
 
 class TreeNode {
     public left: TreeNode;
@@ -183,6 +183,37 @@ class BST {
             this.preorderTraverse(node.right);
         }
     };
+
+
+    public postorderTraverse(node: TreeNode): void {
+        this.postorderTraverse(node.left);
+        this.postorderTraverse(node.right);
+        console.log(node.key);
+    }
+
+
+    public bfsTraverse() {
+        const size: number = this.getNumberOfNodes();
+        const queue: Queue<TreeNode> = new Queue<TreeNode>(size);
+        const stack: Stack<number> = new Stack<number>(size);
+        queue.enqueue(this.root);
+
+
+        while (!queue.isEmpty()) {
+            const node: TreeNode = queue.peek();
+            queue.dequeue();
+
+            if (node.left) {
+                queue.enqueue(node.left);
+            }
+
+            if (node.right) {
+                queue.enqueue(node.right);
+            }
+            stack.push(node.key);
+        }
+        stack.print();
+    }
 }
 
 
@@ -191,6 +222,7 @@ bst.insert(5);
 bst.insert(10);
 bst.insert(3);
 bst.insert(6);
+bst.bfsTraverse();
 // const targetNode = bst.getRootData().right;
 // console.log(bst.getEntry(targetNode));
 // console.log(bst.getEntry_recursive(targetNode, bst.getRootData()));

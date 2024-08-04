@@ -31,6 +31,9 @@ class Queue<T> {
         --this.tail;
     }
 
+    public isEmpty(): boolean {
+        return this.tail < 0 ? true : false;
+    }
 
     public peek(): T {
         if (this.tail < 0) {
@@ -47,7 +50,7 @@ class Queue<T> {
 }
 
 
-
+export default Queue;
 
 // const queue: Queue<number> = new Queue<number>(10);
 // queue.enqueue(10);
