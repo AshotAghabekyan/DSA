@@ -71,6 +71,7 @@ class SLL {
     reverse() {
         let dummyNode = new Node();
         let curr = this.head;
+
         while (curr != null) {
             let nextTmp = curr.next;
             curr.next = dummyNode.next;

@@ -13,14 +13,14 @@ class Stack<T> {
     }
 
 
-    public push(value: T): void | Error {
+    public push(value: T): void {
         if (this.top >= this.capacity) {
             throw new Error("stack overflow!");
         }
         this.arr[++this.top] = value;
     }
 
-    public pop(): void | Error {
+    public pop(): void  {
         if (this.isEmpty()) {
             throw new Error("stack underflow!");
         }
@@ -32,7 +32,7 @@ class Stack<T> {
         return this.top < 0 ? true : false;
     }
 
-    public getTop(): T | Error {
+    public getTop(): T  {
         if (this.isEmpty()) {
             throw new Error("stack is empty!");
         }
