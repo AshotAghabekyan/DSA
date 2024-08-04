@@ -46,7 +46,7 @@ class BST {
 
     private _getHeight(node: TreeNode): number {
         if (!node) {
-            return -1; 
+            return 0; 
         }
 
         let leftHeight = this._getHeight(node.left);
@@ -220,14 +220,58 @@ class BST {
             visitorFunc(val);
         }
     }
-}
 
+
+    public static isSameTree(tree1: TreeNode, tree2: TreeNode): boolean {
+        const stack1: TreeNode[] = [];
+        const stack2: TreeNode[] = [];
+        
+        stack1.push(tree1);
+        stack2.push(tree2);
+        
+        while (stack1.length > 0 && stack2.length > 0) {
+            let node1 = stack1.pop();
+            let node2 = stack2.pop();
+            
+            if (!node1 && !node2) {
+                continue;
+            }
+            
+            if (!node1 || !node2) {
+                return false;
+            }
+            
+            if (node1.key !== node2.key) {
+                return false;
+            }
+            
+            stack1.push(node1.left);
+            stack2.push(node2.left);
+            
+            stack1.push(node1.right);
+            stack2.push(node2.right);
+        }
+        
+        return stack1.length === 0 && stack2.length === 0;
+    }
+   
+}
 
 const bst: BST = new BST(8);
 bst.insert(5);
 bst.insert(10);
 bst.insert(3);
 bst.insert(6);
+
+const bst2: BST = new BST(8);
+bst2.insert(5);
+bst2.insert(10);
+bst2.insert(3);
+bst2.insert(6);
+
+let isEqual: boolean = BST.isSameTree(bst.getRootData(), bst2.getRootData());
+console.log(isEqual);
+
 // bst.bfsTraverse((value: number) => console.log(value));
 // const targetNode = bst.getRootData().right;
 // console.log(bst.getEntry(targetNode));
