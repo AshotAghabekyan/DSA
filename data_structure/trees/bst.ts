@@ -192,7 +192,7 @@ class BST {
     }
 
 
-    public bfsTraverse() {
+    public bfsTraverse(visitorFunc: (value: number) => void) {
         const size: number = this.getNumberOfNodes();
         const queue: Queue<TreeNode> = new Queue<TreeNode>(size);
         const stack: Stack<number> = new Stack<number>(size);
@@ -212,7 +212,13 @@ class BST {
             }
             stack.push(node.key);
         }
-        stack.print();
+
+
+        while (!stack.isEmpty()) {
+            let val: number = stack.getTop();
+            stack.pop();
+            visitorFunc(val);
+        }
     }
 }
 
@@ -222,7 +228,7 @@ bst.insert(5);
 bst.insert(10);
 bst.insert(3);
 bst.insert(6);
-bst.bfsTraverse();
+// bst.bfsTraverse((value: number) => console.log(value));
 // const targetNode = bst.getRootData().right;
 // console.log(bst.getEntry(targetNode));
 // console.log(bst.getEntry_recursive(targetNode, bst.getRootData()));
