@@ -218,9 +218,6 @@ class BST {
     };
 
 
-    
-
-
     public inorderTraverse_recursive(node: TreeNode): void {
         if (node) {
             this.inorderTraverse_recursive(node.left);
