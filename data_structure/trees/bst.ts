@@ -1,5 +1,5 @@
-import Stack from "../stack/stack.js";
-import Queue from "../queue/queue.js";
+import Stack from "../stack/stack.ts";
+import Queue from "../queue/queue.ts";
 
 class TreeNode {
     public left: TreeNode;
@@ -24,27 +24,56 @@ class BST {
         return this.root? false : true;
     }
 
-    public insert(data: number): TreeNode {
-        this.root = this._insert(data, this.root); 
+    public insert_recursive(data: number): TreeNode {
+        this.root = this._insert_recursive(data, this.root); 
         return this.root; 
     }
 
-    private _insert(data: number, node: TreeNode): TreeNode {
+    private _insert_recursive(data: number, node: TreeNode): TreeNode {
         if (!node) {
             return new TreeNode(data); 
         }
 
         if (node.key > data) {
-            node.left = this._insert(data, node.left); 
+            node.left = this._insert_recursive(data, node.left); 
         } else if (node.key < data) {
-            node.right = this._insert(data, node.right); 
+            node.right = this._insert_recursive(data, node.right); 
         }
         
         return node; 
     }
 
 
-    private _getHeight(node: TreeNode): number {
+    public insert(data: number): TreeNode {
+        let curr: TreeNode = this.root;
+
+        while (curr) {
+            if (curr.key > data) {
+                if (!curr.left) {
+                    curr.left = new TreeNode(data);
+                } else {
+                    curr = curr.left;
+                }
+            }
+
+            else if (curr.key < data) {
+                if (!curr.right) {
+                    curr.right = new TreeNode(data);
+                } else {
+                    curr = curr.right;
+                }
+            }
+
+            else {
+                break;
+            }
+        }
+
+        return this.root;
+    }
+
+
+    private _getHeight(node: TreeNode): number { //
         if (!node) {
             return 0; 
         }
@@ -140,7 +169,7 @@ class BST {
     };
 
 
-    public contains(data: number, node: TreeNode): boolean {
+    public contains_recursive(data: number, node: TreeNode): boolean {
         if (!node) {
             return false;
         }
@@ -149,53 +178,148 @@ class BST {
             return true;
         } 
         else if (node.key > data) {
-            return this.contains(data, node.left);
+            return this.contains_recursive(data, node.left);
         }
         else {
-            return this.contains(data, node.right);
+            return this.contains_recursive(data, node.right);
         }
     };
 
 
-    public clear(node: TreeNode): null {
+    public contains(data: number): boolean {
+        let curr: TreeNode = this.root;
+
+        while (curr) {
+
+            if (curr.key == data) {
+                return true;
+            } 
+
+            else if (curr.key > data) {
+                curr = curr.left;
+            }
+
+            else if (curr.key < data) {
+                curr = curr.right;
+            }
+        }
+        return false;
+    }
+
+
+    public clear_recursive(node: TreeNode): null {
         if (!node) {
             return null;
         }
 
-        node.left = this.clear(node.left);
-        node.right = this.clear(node.right);
+        node.left = this.clear_recursive(node.left);
+        node.right = this.clear_recursive(node.right);
         return null;
     };
 
 
-    public inorderTraverse(node: TreeNode): void {
-        if (node) {
-            this.inorderTraverse(node.left);
-            console.log(node.key);
-            this.inorderTraverse(node.right);
-        }
-    };
+    
 
-    public preorderTraverse(node: TreeNode): void {
+
+    public inorderTraverse_recursive(node: TreeNode): void {
         if (node) {
+            this.inorderTraverse_recursive(node.left);
             console.log(node.key);
-            this.preorderTraverse(node.left);
-            this.preorderTraverse(node.right);
+            this.inorderTraverse_recursive(node.right);
         }
     };
 
 
-    public postorderTraverse(node: TreeNode): void {
-        this.postorderTraverse(node.left);
-        this.postorderTraverse(node.right);
-        console.log(node.key);
+    public inorderTraverse(): void {
+        const size: number = this.getNumberOfNodes();
+        const stack: Stack<TreeNode> = new Stack<TreeNode>(size);
+        let curr: TreeNode = this.root;
+
+        while (curr || stack.getSize() > 0) {
+
+            while (curr) {
+                stack.push(curr);
+                curr = curr.left
+            }
+
+            const parentNode: TreeNode = stack.getTop();
+            stack.pop();
+            console.log(parentNode.key);
+            curr = parentNode.right;
+        }
+    }
+
+
+    public preorderTraverse_recursive(node: TreeNode): void {
+        if (node) {
+            console.log(node.key);
+            this.preorderTraverse_recursive(node.left);
+            this.preorderTraverse_recursive(node.right);
+        }
+    };
+
+
+    public preorderTraverse(): void {
+        const size: number = this.getNumberOfNodes();
+        const stack: Stack<TreeNode> = new Stack<TreeNode>(size);
+        let curr: TreeNode = this.root;
+
+        while (curr || stack.getSize() > 0) {
+
+            while (curr) {
+                console.log(curr.key);
+                stack.push(curr);
+                curr = curr.left
+            }
+
+            const parentNode: TreeNode = stack.getTop();
+            stack.pop();
+            curr = parentNode.right;
+        }
+    }
+
+
+    public postorderTraverse_recursive(node: TreeNode): void {
+        if (node) {
+            this.postorderTraverse_recursive(node.left);
+            this.postorderTraverse_recursive(node.right);
+            console.log(node.key);
+        }
+    }
+
+
+    public postorderTraverse(): void {
+        const size: number = this.getNumberOfNodes();
+        const stack: Stack<TreeNode> = new Stack<TreeNode>(size);
+        const resStack: Stack<TreeNode> = new Stack<TreeNode>(size);
+        
+        stack.push(this.root);
+
+        while (stack.getSize() > 0) {
+            const curr = stack.getTop();
+            stack.pop();
+            resStack.push(curr);
+
+            if (curr.left) {
+                stack.push(curr.left);
+            }
+
+            if (curr.right) {
+                stack.push(curr.right);
+            }
+        }
+
+        while (!resStack.isEmpty()) {
+            const node: TreeNode = resStack.getTop();
+            resStack.pop();
+            console.log(node.key);
+        }
     }
 
 
     public bfsTraverse(visitorFunc: (value: number) => void) {
         const size: number = this.getNumberOfNodes();
         const queue: Queue<TreeNode> = new Queue<TreeNode>(size);
-        const stack: Stack<number> = new Stack<number>(size);
         queue.enqueue(this.root);
 
 
@@ -210,14 +334,8 @@ class BST {
             if (node.right) {
                 queue.enqueue(node.right);
             }
-            stack.push(node.key);
-        }
-
-
-        while (!stack.isEmpty()) {
-            let val: number = stack.getTop();
-            stack.pop();
-            visitorFunc(val);
+            
+            visitorFunc(node.key);
         }
     }
 
@@ -257,20 +375,30 @@ class BST {
    
 }
 
+
+
+
+
+
 const bst: BST = new BST(8);
 bst.insert(5);
 bst.insert(10);
 bst.insert(3);
 bst.insert(6);
+bst.insert(15);
+bst.insert(9);
+// console.log(bst.contains(15));
+bst.postorderTraverse();
 
-const bst2: BST = new BST(8);
-bst2.insert(5);
-bst2.insert(10);
-bst2.insert(3);
-bst2.insert(6);
+// const bst2: BST = new BST(8);
+// bst2.insert_recursive(5);
+// bst2.insert_recursive(10);
+// bst2.insert_recursive(3);
+// bst2.insert_recursive(6);
+// bst.inorderTraverse(bst.getRootData());
 
-let isEqual: boolean = BST.isSameTree(bst.getRootData(), bst2.getRootData());
-console.log(isEqual);
+// let isEqual: boolean = BST.isSameTree(bst.getRootData(), bst2.getRootData());
+// console.log(isEqual);
 
 // bst.bfsTraverse((value: number) => console.log(value));
 // const targetNode = bst.getRootData().right;

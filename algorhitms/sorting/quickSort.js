@@ -65,3 +65,29 @@ function quickSort(arr, left = 0, right = arr.length - 1) {
 // console.log(arr);
 
 // export { quickSort }
+
+
+
+
+// function partition_prototype(arr, left, right) {
+//     let low = left;
+//     let high = right - 1;
+
+//     let pivot = arr[right];
+
+//     while (low <= right) {
+//         while (arr[low] < pivot) {
+//             ++low;
+//         }
+
+//         while (arr[high] > pivot) {
+//             --high;
+//         }
+
+//         if (high > low) {
+//             [arr[high], arr[low]] = [arr[low], arr[high]];
+//         }
+//     }
+
+//     [arr[low], arr[right]] = [arr[right], arr[low]];
+// }
