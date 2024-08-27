@@ -16,7 +16,7 @@ class AVL  {
         return this.root;
     }
 
-    public insert(value: number, root: TreeNode) {
+    public insert(value: number, root: TreeNode): TreeNode {
         if (!root) {
             return new TreeNode(value);
         }
@@ -37,7 +37,7 @@ class AVL  {
 
 
 
-    public delete(value: number, root?: TreeNode): TreeNode {
+    public delete(value: number, root: TreeNode): TreeNode {
         if (!root) {
             return null;
         }
@@ -97,7 +97,7 @@ class AVL  {
 
 
 
-    private balanceTree(root: TreeNode, value: number) {
+    private balanceTree(root: TreeNode, value: number): TreeNode {
         const balance = this.getBalance(root);
 
         if (balance > 1) {
@@ -118,7 +118,7 @@ class AVL  {
     }
 
 
-    private leftRotate(root: TreeNode) {
+    private leftRotate(root: TreeNode): TreeNode {
         const tmp: TreeNode = root.right;
         root.right = tmp.left;
         tmp.left = root;
@@ -134,12 +134,12 @@ class AVL  {
     }
 
 
-    private leftRightRotate(root: TreeNode) {
+    private leftRightRotate(root: TreeNode): TreeNode {
         root.left = this.leftRotate(root.left);
         return this.rightRotate(root);
     }
     
-    private rightLeftRotate(root: TreeNode) {
+    private rightLeftRotate(root: TreeNode): TreeNode {
         root.right = this.rightRotate(root.right);
         return this.leftRotate(root);
     }
@@ -156,21 +156,22 @@ class AVL  {
         return Math.max(leftHeight, rightHeight) + 1;
     }
 
-    private getBalance(root: TreeNode) {
+
+    private getBalance(root: TreeNode): number {
         const balance: number = this.getHeight(root.left) - this.getHeight(root.right);
         return balance;
     }
 
-    public isBalanced(root: TreeNode) {
+    public isBalanced(root: TreeNode): boolean {
         if (!root) {
-            return 0;
+            return true;
         }
         const res = this.getHeight(root.left) - this.getHeight(root.right);
         return Math.abs(res) <= 1;
     }
 
     
-    public inorder(root: TreeNode) {
+    public inorder(root: TreeNode): void {
         if (!root) {
             return;
         }
