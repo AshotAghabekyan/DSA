@@ -37,16 +37,39 @@ class AVL  {
 
 
 
-    public delete(value: number) {
-        let curr: TreeNode = this.root;
-
-        while (curr) {
-            if (curr.key == value) {
-                if (!curr.left && !curr.right) {
-                    
-                }
-            }
+    public delete(value: number, root?: TreeNode): TreeNode {
+        if (!root) {
+            return null;
         }
+
+        if (value < root.key) {
+            root.left = this.delete(value, root.left);
+        } 
+        else if (value > root.key) {
+            root.right = this.delete(value, root.right);
+        } 
+        else {
+            if (!root.left) {
+                return root.right;
+            }
+            else if (!root.right) {
+                return root.left;
+            }
+
+            const tmp = this.getMinValueNode(root.right);
+            root.key = tmp.key;
+            root.right = this.delete(tmp.key, root.right);
+        }
+        return this.balanceTree(root, value);
+    }
+
+
+    private getMinValueNode(node: TreeNode): TreeNode {
+        let current = node;
+        while (current.left) {
+            current = current.left;
+        }
+        return current;
     }
 
 
@@ -74,7 +97,7 @@ class AVL  {
 
 
 
-    public balanceTree(root: TreeNode, value: number) {
+    private balanceTree(root: TreeNode, value: number) {
         const balance = this.getBalance(root);
 
         if (balance > 1) {
@@ -95,7 +118,7 @@ class AVL  {
     }
 
 
-    public leftRotate(root: TreeNode) {
+    private leftRotate(root: TreeNode) {
         const tmp: TreeNode = root.right;
         root.right = tmp.left;
         tmp.left = root;
@@ -103,7 +126,7 @@ class AVL  {
     }
 
 
-    public rightRotate(root: TreeNode) {
+    private rightRotate(root: TreeNode) {
         const tmp: TreeNode = root.left;
         root.left = tmp.right;
         tmp.right = root;
@@ -111,12 +134,12 @@ class AVL  {
     }
 
 
-    public leftRightRotate(root: TreeNode) {
+    private leftRightRotate(root: TreeNode) {
         root.left = this.leftRotate(root.left);
         return this.rightRotate(root);
     }
     
-    public rightLeftRotate(root: TreeNode) {
+    private rightLeftRotate(root: TreeNode) {
         root.right = this.rightRotate(root.right);
         return this.leftRotate(root);
     }
@@ -133,7 +156,7 @@ class AVL  {
         return Math.max(leftHeight, rightHeight) + 1;
     }
 
-    public getBalance(root: TreeNode) {
+    private getBalance(root: TreeNode) {
         const balance: number = this.getHeight(root.left) - this.getHeight(root.right);
         return balance;
     }
