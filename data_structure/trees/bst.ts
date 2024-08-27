@@ -1,19 +1,21 @@
 import Stack from "../stack/stack.ts";
 import Queue from "../queue/queue.ts";
 
-class TreeNode {
+export class TreeNode {
     public left: TreeNode;
     public right: TreeNode;
     public key: number;
 
-    constructor(key: number) {
-        this.key = key;
+    constructor(key?: number) {
+        this.key = key || null;
     }
 }
 
 
 
-class BST {
+
+
+export class BST {
     private root: TreeNode;
 
     constructor(initValue: number) {
@@ -369,38 +371,89 @@ class BST {
         
         return stack1.length === 0 && stack2.length === 0;
     }
-   
+
+
+
+    public recoverTree(root: TreeNode): TreeNode {
+        let result: TreeNode[] = [];
+        let stack: TreeNode[] = [];
+        let curr: TreeNode = root;
+
+        while (curr || stack.length > 0) {
+
+            while (curr) {
+                stack.push(curr);
+                curr = curr.left;
+            }
+
+            let parentNode: TreeNode = stack.pop();
+            result.push(parentNode);
+            curr = parentNode.right;
+        }
+
+
+        let firstErrorNode: TreeNode | null = null;
+        let secondErrorNode: TreeNode | null = null;
+
+        for (let i = 0; i < result.length; ++i) {
+            if (result[i + 1].key < result[i].key) {
+                firstErrorNode = result[i];
+                secondErrorNode = result[i + 1];
+                break;
+            }
+        }
+
+
+        if (firstErrorNode && secondErrorNode) {
+            let temp = firstErrorNode.key;
+            firstErrorNode.key = secondErrorNode.key;
+            secondErrorNode.key = temp;
+        }
+    
+
+        return root;
+    }
+
+
+
+    public bfsTraverse_m(root: TreeNode): number[][] {
+        if (!root) {
+            return [];
+        }
+    
+        let stack: TreeNode[] = [];
+        let result: number[][] = [];
+        stack.push(root);
+        result.push([root.key])
+    
+        while (stack.length > 0) {
+            let curr: TreeNode = stack.pop();
+    
+    
+            if (curr.right) {
+                stack.push(curr.right);
+            }
+    
+            if (curr.left) {
+                stack.push(curr.left);
+            }
+    
+            if (curr.left || curr.right) {
+                if (!curr.left && curr.right) {
+                    result.push([curr.right.key])
+                }
+    
+                else if (!curr.right && curr.left) {
+                    result.push([curr.left.key]);
+                }
+                else {
+                    result.push([curr.left.key, curr.right.key])
+                }
+            }
+        }
+        return result;
+    };
+
+
 }
 
-
-
-
-
-
-const bst: BST = new BST(8);
-bst.insert(5);
-bst.insert(10);
-bst.insert(3);
-bst.insert(6);
-bst.insert(15);
-bst.insert(9);
-// console.log(bst.contains(15));
-bst.postorderTraverse();
-
-// const bst2: BST = new BST(8);
-// bst2.insert_recursive(5);
-// bst2.insert_recursive(10);
-// bst2.insert_recursive(3);
-// bst2.insert_recursive(6);
-// bst.inorderTraverse(bst.getRootData());
-
-// let isEqual: boolean = BST.isSameTree(bst.getRootData(), bst2.getRootData());
-// console.log(isEqual);
-
-// bst.bfsTraverse((value: number) => console.log(value));
-// const targetNode = bst.getRootData().right;
-// console.log(bst.getEntry(targetNode));
-// console.log(bst.getEntry_recursive(targetNode, bst.getRootData()));
-// console.log(bst.contains(18, bst.getRootData()));
-// bst.inorderTraverse(bst.getRootData());
-// bst.preorderTraverse(bst.getRootData());
