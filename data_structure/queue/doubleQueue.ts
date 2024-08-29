@@ -1,79 +1,126 @@
 
 
 
-
 //Double Ended Queue;
-class Deque<T> {
+export class Deque<T> {
     readonly arr: T[];
-    private head: number;
-    private tail: number;
+    private ptr: number;
 
-    constructor(size: number) {
-        this.arr = new Array<T>(size);
-        this.head = 0;
-        this.tail = 0;
+    constructor(dequeueSize: number) {
+        this.arr = new Array<T>(dequeueSize);
+        this.ptr = 0;
+    }
+
+    public push_front(value: T): void {
+        if (this.ptr == this.arr.length) {
+            throw new Error("deque overflow!");
+        }
+
+        if (this.ptr > 0) {
+            for (let i = this.ptr + 1; i >= 0; --i) {
+                this.arr[i] = this.arr[i - 1];
+            }
+
+        }
+        this.arr[0] = value;
+        ++this.ptr;
     }
 
 
-    public pushFront(value: T): void {
-        if (this.tail == this.arr.length) {
-            throw new Error("queue overflow");
-        }
+    public pop_front(): void {
+        if (this.ptr <= 0) {
+            throw new Error("deque underflow");
+        } 
 
-        for (let i = this.tail; i >= 0; --i) {
-            this.arr[i] = this.arr[i - 1];
-        }
-        this.arr[this.head] = value;
-        ++this.tail;
-    }
-
-
-    public pushEnd(value: T) {
-        if (this.tail == this.arr.length) {
-            throw new Error("queue overflow");
-        }
-
-        this.arr[this.tail] = value;
-        ++this.tail;
-    }
-
-
-    public popFront(): void {
-        if (this.tail == 0) {
-            throw new Error("queue underflow");
-        }
-
-        for (let i = 0; i < this.tail; ++i) {
+        for (let i = 0; i < this.ptr; ++i) {
             this.arr[i] = this.arr[i + 1];
         }
 
-        --this.tail;
-    } 
+        --this.ptr;
+    }
 
 
-    public popEnd(): void {
-        if (this.tail == 0) {
-            throw new Error("queue underflow");
+    public push_end(value: T): void {
+        if (this.ptr == this.arr.length) {
+            throw new Error("deque overflow");
         }
 
-        this.arr.splice(this.tail, 1);
-        --this.tail;
+        this.arr[this.ptr++] = value;
     }
+
+
+    public pop_end(): void {
+        if (this.ptr <= 0) {
+            throw new Error("deque underflow");
+        }
+
+        --this.ptr;
+    }
+
+
+    public insert(value: T, position: number): void {
+        if (position >= this.arr.length) {
+            throw new Error("invalid insert position");
+        }
+
+        if (position > this.ptr) {
+            return this.push_end(value);
+        }
+
+        if (position == 0) {
+            return this.push_front(value);
+        }
+
+        for (let i = this.ptr; i >= position; --i) {
+            this.arr[i] = this.arr[i - 1];
+        }
+
+        this.arr[position] = value;
+        ++this.ptr;
+    }
+
+
+    public erase(position: number): void {
+        if (position >= this.arr.length) {
+            throw new Error("invalid remove position");
+        }
+
+        if (position > this.ptr) {
+            return this.pop_end();
+        }
+
+        if (position == 0) {
+            return this.pop_front();
+        }
+
+        for (let i = position; i <= this.ptr; ++i) {
+            this.arr[i] = this.arr[i + 1];
+        }
+        --this.ptr;
+    }
+
+
+    public front(): T {
+        return this.arr[0] || null;
+    }
+
+    public back(): T {
+        return this.arr[this.ptr] || null;
+    }
+
+    public empty(): boolean {
+        return this.ptr <= 0;
+    }
+
+    public clear(): void {
+        this.ptr = 0;
+    }
+
+    public size(): number {
+        return this.ptr;
+    }
+
 }
 
 
-const deque: Deque<number> = new Deque<number>(10);
-// deque.pushFront(10);
-// deque.pushFront(20);
-// deque.pushFront(30);
-// deque.pushEnd(40);
-// deque.popFront();
-// deque.popEnd();
-// deque.pushEnd(50);
-// deque.pushEnd(60);
-// deque.pushEnd(70);
-// deque.pushEnd(80);
-// deque.pushEnd(35);
-// deque.pushEnd(45);
-// deque.popFront();
-// console.log(deque.arr);
+// export const deque: Deque<number> = new Deque<number>(10);
