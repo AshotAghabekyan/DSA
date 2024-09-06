@@ -123,4 +123,5 @@ export class Deque<T> {
 }
 
 
-// export const deque: Deque<number> = new Deque<number>(10);
+const deque = new Deque(10);
+console.log(deque.size());

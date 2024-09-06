@@ -4,7 +4,7 @@ import { TreeNode } from "./bst.ts";
 
 
 
-class AVL  {
+export class AVL  {
     private root: TreeNode;
 
     constructor(initValue: number) {
@@ -183,12 +183,12 @@ class AVL  {
 }
 
 
-const avl: AVL = new AVL(10);
-avl.insert(8, avl.getRoot());
-avl.insert(11, avl.getRoot());
-avl.insert(7, avl.getRoot());
-avl.insert(6, avl.getRoot());
-console.log(avl.getRoot());
-avl.insert(4, avl.getRoot());
+// const avl: AVL = new AVL(10);
+// avl.insert(8, avl.getRoot());
+// avl.insert(11, avl.getRoot());
+// avl.insert(7, avl.getRoot());
+// avl.insert(6, avl.getRoot());
+// console.log(avl.getRoot());
+// avl.insert(4, avl.getRoot());
 // console.log("is balanced -->", avl.isBalanced(avl.getRoot()))
 // avl.inorder(avl.getRoot());

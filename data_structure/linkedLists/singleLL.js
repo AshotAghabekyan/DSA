@@ -13,7 +13,7 @@ class Node {
 
 
 
-class SLL {
+export class SLL {
     head;
 
     constructor() {
@@ -121,15 +121,15 @@ class SLL {
 }
 
 
-let singleLL = new SLL();
-singleLL.push_front(5);
-singleLL.push_front(4);
-singleLL.push_front(3);
-singleLL.push_front(2);
-singleLL.push_front(1);
-singleLL.print()
-singleLL.reverse()
-singleLL.print()
+// let singleLL = new SLL();
+// singleLL.push_front(5);
+// singleLL.push_front(4);
+// singleLL.push_front(3);
+// singleLL.push_front(2);
+// singleLL.push_front(1);
+// singleLL.print()
+// singleLL.reverse()
+// singleLL.print()
 
 
 
