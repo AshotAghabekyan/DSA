@@ -15,12 +15,15 @@ class HashNode<T> {
 
 
 
-class HashTable<T> {
+export class HashTable<T> {
     private readonly fractionalConst = (Math.sqrt(5) - 1) / 2;  //suggested by Knuth.
-    private arr: HashNode<T>[] = new Array<HashNode<T>>(10);
+    private arr: HashNode<T>[] = new Array<HashNode<T>>;
     private size: number = 0;
 
 
+    constructor(initSize: number) {
+        this.arr = new Array<HashNode<T>>(initSize);
+    }
 
     private genHash(key: number) {
         return Math.floor(this.arr.length * (key % this.fractionalConst));
