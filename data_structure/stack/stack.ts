@@ -2,7 +2,7 @@
 
 
 
-class Stack<T> {
+export class Stack<T> {
     private arr: T[];
     private capacity: number;
     private top: number = -1;
@@ -51,5 +51,3 @@ class Stack<T> {
 }
 
 
-let stack: Stack<number> = new Stack<number>(5);
-export default Stack;

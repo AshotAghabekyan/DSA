@@ -17,7 +17,7 @@ class HashNode<T> {
 
 export class HashTable<T> {
     private readonly fractionalConst = (Math.sqrt(5) - 1) / 2;  //suggested by Knuth.
-    private arr: HashNode<T>[] = new Array<HashNode<T>>;
+    private arr: HashNode<T>[];
     private size: number = 0;
 
 

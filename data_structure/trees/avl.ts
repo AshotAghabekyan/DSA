@@ -1,14 +1,23 @@
 import { TreeNode } from "./bst.ts";
 
 
+class AvlTreeNode extends TreeNode {
+    public height: number = 1;
+    public left: AvlTreeNode = null;
+    public right: AvlTreeNode = null; 
+
+    constructor(key: number) {
+        super(key);
+    }
+}
 
 
 
-export class AVL  {
-    private root: TreeNode;
+export class AVL {
+    private root: AvlTreeNode;
 
     constructor(initValue: number) {
-        this.root = new TreeNode(initValue)
+        this.root = new AvlTreeNode(initValue)
     }
 
 
@@ -16,37 +25,58 @@ export class AVL  {
         return this.root;
     }
 
-    public insert(value: number, root: TreeNode): TreeNode {
+
+    public insert(value: number) {
+        this.root = this._insert(value, this.root);
+    }
+
+    private _insert(value: number, root: AvlTreeNode): AvlTreeNode {
         if (!root) {
-            return new TreeNode(value);
+            return new AvlTreeNode(value);
         }
 
         if (value < root.key) {
-            root.left = this.insert(value, root.left);
+            root.left = this._insert(value, root.left);
         }
         else if(value > root.key) {
-            root.right = this.insert(value, root.right);
+            root.right = this._insert(value, root.right);
         }
 
-        if (root === this.root) {
-            this.root = this.balanceTree(root, value);
-            return this.root;
+        root.height = Math.max(this.getHeight(root.left), this.getHeight(root.right)) + 1;
+        const balance = this.getBalance(root);
+
+        if (balance > 1) {
+            if (value > root.left.key) {
+                root.left = this.leftRotate(root.left);
+            }
+            return this.rightRotate(root);
         }
-        return this.balanceTree(root, value);
+
+        if (balance < -1) {
+            if (value < root.right.key) {
+                root.right = this.rightRotate(root.right)
+            }
+            return this.leftRotate(root);
+        }
+
+        return root;
     }
 
 
+    public delete(value: number) {
+        this.root = this._delete(value, this.root);
+    }
 
-    public delete(value: number, root: TreeNode): TreeNode {
+    private _delete(value: number, root: AvlTreeNode): AvlTreeNode {
         if (!root) {
             return null;
         }
 
         if (value < root.key) {
-            root.left = this.delete(value, root.left);
+            root.left = this._delete(value, root.left);
         } 
         else if (value > root.key) {
-            root.right = this.delete(value, root.right);
+            root.right = this._delete(value, root.right);
         } 
         else {
             if (!root.left) {
@@ -58,13 +88,31 @@ export class AVL  {
 
             const tmp = this.getMinValueNode(root.right);
             root.key = tmp.key;
-            root.right = this.delete(tmp.key, root.right);
+            root.right = this._delete(tmp.key, root.right);
         }
-        return this.balanceTree(root, value);
+        
+        root.height = Math.max(this.getHeight(root.left), this.getHeight(root.right)) + 1;
+        const balance = this.getBalance(root);
+
+        if (balance > 1) {
+            if (value > root.left.key) {
+                root.left = this.leftRotate(root.left);
+            }
+            return this.rightRotate(root);
+        }
+
+        if (balance < -1) {
+            if (value < root.right.key) {
+                return this.rightRotate(root.right)
+            }
+            return this.leftRotate(root);
+        }
+
+        return root;
     }
 
 
-    private getMinValueNode(node: TreeNode): TreeNode {
+    private getMinValueNode(node: AvlTreeNode): AvlTreeNode {
         let current = node;
         while (current.left) {
             current = current.left;
@@ -73,19 +121,19 @@ export class AVL  {
     }
 
 
-    public search(value: number): TreeNode {
-        let curr: TreeNode = this.root;
+    public search(value: number): AvlTreeNode {
+        let curr: AvlTreeNode = this.root;
 
         while (curr) {
             if (curr.key == value) {
                 return curr;
             }
 
-            else if (curr.key < value) {
+            else if (curr.key > value) {
                 curr = curr.left;
             }
 
-            else if (curr.key > value) {
+            else if (curr.key < value) {
                 curr = curr.right;
             }
             else {
@@ -96,73 +144,42 @@ export class AVL  {
     }
 
 
-
-    private balanceTree(root: TreeNode, value: number): TreeNode {
-        const balance = this.getBalance(root);
-
-        if (balance > 1) {
-            if (value > root.left.key) {
-                return this.rightLeftRotate(root);
-            }
-            return this.rightRotate(root);
-        }
-
-        if (balance < -1) {
-            console.log('balance < -1!!')
-            if (value < root.right.key) {
-                return this.leftRightRotate(root);
-            }
-            return this.leftRotate(root);
-        }
-        return root;
-    }
-
-
-    private leftRotate(root: TreeNode): TreeNode {
-        const tmp: TreeNode = root.right;
+    private leftRotate(root: AvlTreeNode): AvlTreeNode { 
+        const tmp: AvlTreeNode = root.right;
         root.right = tmp.left;
         tmp.left = root;
+        tmp.height = Math.max(this.getHeight(tmp.left), this.getHeight(tmp.right)) + 1;
+        root.height = Math.max(this.getHeight(root.left), this.getHeight(root.right)) + 1;
         return tmp;
     }
 
 
-    private rightRotate(root: TreeNode) {
-        const tmp: TreeNode = root.left;
+    private rightRotate(root: AvlTreeNode) {
+        const tmp: AvlTreeNode = root.left;
         root.left = tmp.right;
         tmp.right = root;
+        tmp.height = Math.max(this.getHeight(tmp.left), this.getHeight(tmp.right)) + 1;
+        root.height = Math.max(this.getHeight(root.left), this.getHeight(root.right)) + 1;
         return tmp;
     }
 
-
-    private leftRightRotate(root: TreeNode): TreeNode {
-        root.left = this.leftRotate(root.left);
-        return this.rightRotate(root);
-    }
-    
-    private rightLeftRotate(root: TreeNode): TreeNode {
-        root.right = this.rightRotate(root.right);
-        return this.leftRotate(root);
-    }
     
 
-    private getHeight(node: TreeNode): number { //
+    private getHeight(node: AvlTreeNode): number { //
         if (!node) {
             return 0; 
         }
-
-        let leftHeight = this.getHeight(node.left);
-        let rightHeight = this.getHeight(node.right);
-
-        return Math.max(leftHeight, rightHeight) + 1;
+        return node.height;
     }
 
 
-    private getBalance(root: TreeNode): number {
+    private getBalance(root: AvlTreeNode): number {
         const balance: number = this.getHeight(root.left) - this.getHeight(root.right);
         return balance;
     }
 
-    public isBalanced(root: TreeNode): boolean {
+
+    public isBalanced(root: AvlTreeNode): boolean {
         if (!root) {
             return true;
         }
@@ -171,7 +188,7 @@ export class AVL  {
     }
 
     
-    public inorder(root: TreeNode): void {
+    public inorder(root: AvlTreeNode): void {
         if (!root) {
             return;
         }
@@ -184,11 +201,13 @@ export class AVL  {
 
 
 // const avl: AVL = new AVL(10);
-// avl.insert(8, avl.getRoot());
-// avl.insert(11, avl.getRoot());
-// avl.insert(7, avl.getRoot());
-// avl.insert(6, avl.getRoot());
+
+
+// avl.insert(8);
+// avl.insert(11)
+// avl.insert(7);
+// avl.insert(6);
+// avl.insert(4);
 // console.log(avl.getRoot());
-// avl.insert(4, avl.getRoot());
 // console.log("is balanced -->", avl.isBalanced(avl.getRoot()))
-// avl.inorder(avl.getRoot());
+// // avl.inorder(avl.getRoot());

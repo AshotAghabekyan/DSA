@@ -29,8 +29,8 @@ class TextEditor {
     #text = "";
 
     constructor() {
-        this.#redoStack = new Stack<string>(10);
-        this.#undoStack = new Stack<string>(10);
+        this.#redoStack = new Stack<number>(10);
+        this.#undoStack = new Stack<number>(10);
     }
 
     type(word) {

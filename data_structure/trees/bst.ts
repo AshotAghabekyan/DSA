@@ -1,5 +1,5 @@
-import Stack from "../stack/stack.ts";
-import Queue from "../queue/queue.ts";
+import {Stack} from "../stack/stack.ts";
+import {Queue} from "../queue/queue.ts";
 
 export class TreeNode {
     public left: TreeNode;
@@ -8,6 +8,8 @@ export class TreeNode {
 
     constructor(key?: number) {
         this.key = key || null;
+        this.left = null;
+        this.right = null;
     }
 }
 
