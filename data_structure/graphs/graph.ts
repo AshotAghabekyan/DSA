@@ -1,5 +1,4 @@
 import {Queue} from "../queue/queue.ts"
-import {Stack} from "../stack/stack.ts"
 
 
 
@@ -14,7 +13,7 @@ class UndirectedGraph {
         this.collection[value] = [];
     }
 
-    
+
     public addEdge(u: number, v: number) {
         this.collection[u].push(v);
         this.collection[v].push(u);
@@ -65,7 +64,7 @@ class UndirectedGraph {
 
         queue.push(startVertex);
         visited[startVertex] = true;
-        metricMap[startVertex] = 0;
+        metricMap[startVertex] = distance;
 
         while (queue.length > 0) {
             const vertex = queue.shift()!;
