@@ -14,9 +14,46 @@ class UndirectedGraph {
         this.collection[value] = [];
     }
 
+    
     public addEdge(u: number, v: number) {
         this.collection[u].push(v);
         this.collection[v].push(u);
+    }
+
+
+    public dfsTraverse(v: number = 0, visitList: boolean[] = []) {
+        visitList[v] = true;
+        console.log(v);
+
+        for (let i = 0; i < this.collection[v].length; ++i) {
+            if (!visitList[this.collection[v][i]]) {
+                this.dfsTraverse(this.collection[v][i], visitList);
+            }
+        }
+    }
+
+
+    public bfsTraverse(v: number = 0): void {
+        const queue: Queue<number> = new Queue<number>(this.collection.length);
+        const visitedList: boolean[] = [];
+        queue.enqueue(v);
+
+        while (!queue.isEmpty()) {
+            const vertex: number = queue.peek();
+            queue.dequeue();
+            visitedList[v] = true;
+
+            for (let i = 0; i < this.collection[vertex].length; ++i) {
+                if (visitedList[this.collection[vertex][i]]) {
+                    continue;
+                }
+
+                if (!queue.include(this.collection[vertex][i])) {
+                    queue.enqueue(this.collection[vertex][i]);
+                }
+            }
+            console.log("vertex-->", vertex);
+        }
     }
 
 
