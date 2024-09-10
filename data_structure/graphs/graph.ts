@@ -67,7 +67,7 @@ class UndirectedGraph {
         metricMap[startVertex] = distance;
 
         while (queue.length > 0) {
-            const vertex = queue.shift()!;
+            const vertex: number = queue.shift()!;
             distance = metricMap[vertex];
 
             for (const neighbor of this.collection[vertex]) {
@@ -88,21 +88,22 @@ class UndirectedGraph {
         }
 
         const metricMap: number[] = this.createMetricMap(v);
-        const result: number[] = [u];
+        const path: number[] = [u];
         let currentVertex = u;
 
         while (currentVertex !== v) {
             for (const neighbor of this.collection[currentVertex]) {
                 if (metricMap[neighbor] === metricMap[currentVertex] - 1) {
-                    result.push(neighbor);
+                    path.push(neighbor);
                     currentVertex = neighbor;
                     break;
                 }
             }
         }
 
-        return result.reverse();
+        return path.reverse();
     }
+
 
     public removeEdges(v: number) {
         if (!this.collection[v]) {
@@ -140,6 +141,6 @@ graph.addEdge(3, 5);
 // graph.dfsTraverse();
 // graph.removeEdges(2);
 // console.log(graph.collection);
-console.log(graph.getShortestPath(0, 5));
+console.log(graph.getShortestPath(1, 5));
 // graph.bfsTraverse();
 // graph.dfsTraverse()
