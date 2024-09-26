@@ -93,6 +93,30 @@ export class BST {
     }
 
 
+    public getHeight_iterative() {
+        const stack: TreeNode[] = [];
+        stack.push(this.root);
+        let left = 0;
+        let rigth = 0;
+        let height = 0;
+        while (stack.length > 0) {
+            const node: TreeNode = stack.pop();
+            
+            if (node.right) {
+                ++left;
+                stack.push(node.right);
+            }
+
+            if (node.left) {
+                ++rigth;
+                stack.push(node.left);
+            }
+
+            height = Math.max(left + rigth) + 1;
+        }
+    }
+
+
     public getNumberOfNodes_recursive(node: TreeNode): number {
         if (!node) {
             return 0;
@@ -459,3 +483,37 @@ export class BST {
 
 }
 
+
+
+function insert(data: number, node: TreeNode) {
+    if (!node) {
+        return new TreeNode(data); 
+    }
+
+    if (node.key > data) {
+        node.left = this._insert_recursive(data, node.left); 
+    } else if (node.key < data) {
+        node.right = this._insert_recursive(data, node.right); 
+    }
+    
+    return node; 
+}
+
+
+function uniqueTrees(n: number): TreeNode[] {
+    if (n == 1) {
+        return [];
+    }
+
+    let result: TreeNode[] = [];
+
+    for (let i = 1; i <= n; ++i) {
+        let root: TreeNode = new TreeNode(i);
+        for (let j = 1; j <= n; ++j) {
+            insert(j, root);
+        }
+        result.push(root);
+    }
+
+    return result;
+}

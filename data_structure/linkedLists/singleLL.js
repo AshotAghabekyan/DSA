@@ -112,12 +112,6 @@ export class SLL {
             iNode = iNode.next;
         }
     };
-
-
-    unique() {
-        
-    }
-
 }
 
 
