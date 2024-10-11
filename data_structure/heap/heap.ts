@@ -9,7 +9,7 @@ export class Heap {
         this.arr = new Array<number>(size);
     }
     
-    public heapify(i: number = 0) {
+    private heapify(i: number = 0) {
         let largest: number = i;
         let leftChildIndex = (2 * i) + 1;
         let rightChildIndex = (2 * i) + 2;
@@ -30,16 +30,8 @@ export class Heap {
     }
 
 
-    public getParent(index: number) {
+    private getParent(index: number) {
         return Math.floor((index -1) / 2);
-    }
-
-    public leftChild(index: number) {
-        return (index * 2) + 1;
-    } 
-
-    public rightChild(index: number) {
-        return (index * 2) + 2;
     }
 
 
