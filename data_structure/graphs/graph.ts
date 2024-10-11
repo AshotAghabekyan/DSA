@@ -1,4 +1,4 @@
-import {Queue} from "../queue/queue.ts"
+import { Queue } from "../queue/queue.ts";
 import { Stack } from "../stack/stack.ts";
 
 
@@ -98,7 +98,7 @@ export class UndirectedGraph {
     
 
 
-    private createMetricMap(startVertex: number = 0): number[] {
+    public createMetricMap(startVertex: number = 0): number[] {
         const queue: number[] = [];
         const visited: boolean[] = []
         const metricMap: number[] = []
@@ -109,7 +109,7 @@ export class UndirectedGraph {
         metricMap[startVertex] = distance;
 
         while (queue.length > 0) {
-            const vertex: number = queue.shift()!;
+            const vertex: number = queue.shift();
             distance = metricMap[vertex];
 
             for (const neighbor of this.collection[vertex]) {
@@ -124,104 +124,105 @@ export class UndirectedGraph {
     }
 
 
-    public getVerticiesOfLevel(nLevel: number, startVertex: number = 0) {
-        if (nLevel < 1) {
-            throw new Error('invalid level');
-        }
 
-        const queue: Queue<number> = new Queue<number>(this.collection.length);
-        let visitedList: boolean[] = [];
-        let level: number = 1;
-        let levelVerticies: number[] = [];
-
-        queue.enqueue(startVertex);
-        visitedList[startVertex] = true; 
-
-        while (!queue.isEmpty()) {
-            const levelCount: number = queue.length();
-    
-            for (let i = 0; i < levelCount; ++i) {
-                const vertex = queue.peek();
-                queue.dequeue();
-
-                if (level == nLevel) {
-                    levelVerticies.push(vertex);
-                    continue;
-                }
-    
-                for (const adjacentVertex of this.collection[vertex]) {
-                    if (!visitedList[adjacentVertex]) {
-                        visitedList[adjacentVertex] = true;
-                        queue.enqueue(adjacentVertex);
-                    }
-                }
-            }
-
-            if (level == nLevel) {
-                return levelVerticies;
-            } 
-            ++level;
-        }
-        return levelVerticies;
-    }
-    
-
-
-
-
-    public getShortestPath(v: number, u: number): number[] {
-        if (!this.collection[v] || !this.collection[u]) {
+    public getShortestPath(source: number, destination: number) {
+        if (!this.collection[source] || !this.collection[destination]) {
             throw new Error("Invalid vertex");
         }
 
-        const metricMap: number[] = this.createMetricMap(v);
-        const path: number[] = [];
-        path.push(u);
-        let currentVertex = u;
+        let parents: number[] = [];
+        let visited: boolean[] = [];
+        let queue: number[] = [];
 
-        while (currentVertex !== v) {
-            for (const neighbor of this.collection[currentVertex]) {
-                if (metricMap[neighbor] === metricMap[currentVertex] - 1) {
-                    path.push(neighbor);
-                    currentVertex = neighbor;
-                    break;
+        parents[source] = null;
+        visited[source] = true;
+        queue.push(source);
+
+        while (queue.length > 0) {
+            let vertex = queue.shift();
+
+            if (vertex == destination) {
+                let result: number[] = [];
+                result.push(vertex);
+
+                while (vertex != source) {
+                    let parent = parents[vertex];
+                    result.push(parent);
+                    vertex = parent;
+                }
+                return result.reverse();
+            }
+
+            for (const neighbor of this.collection[vertex]) {
+                if (!visited[neighbor]) {
+                    parents[neighbor] = vertex;
+                    visited[neighbor] = true;
+                    queue.push(neighbor);
                 }
             }
         }
 
-        return path.reverse();
+        return [];
     }
 
 
-    // public getAllPaths(source: number, destination: number): number[][] {
-    //     const stack: Stack<number> = new Stack(this.collection.length);
-    //     const inStack: boolean[] = [];
-    //     const startVertex: number = 0;
-    //     stack.push(startVertex);
-    //     inStack[startVertex] = true;
 
-        
-    //     while (!stack.isEmpty()) {
-    //         let curr = [];
-    //         const vertex: number = stack.getTop();
-    //         stack.pop();
-    //         curr.push(vertex);
-    //         console.log(vertex);
+    public allPossiblePaths(
+        source: number,
+        destination: number,
+        visitedList: boolean[] = [],
+        paths: number[] = [source],
+        allPaths: number[][] = []
+    ) {
+        if (source == destination) {
+            allPaths.push([...paths])
+            return allPaths;
+        }
 
-    //         for (let neighbor of this.collection[vertex]) {
-    //             if (!visitedList[neighbor]) {
-    //                 visitedList[neighbor] = true;
-    //                 stack.push(neighbor);   
-    //             }
+        visitedList[source] = true;
 
-    //             if (destination == neighbor) {
+        for (let neighbor of this.collection[source]) {
+            if (!visitedList[neighbor]) {
+                paths.push(neighbor);
+                this.allPossiblePaths(neighbor, destination, visitedList, paths, allPaths);
+                paths.pop();
+            }
+        }
+        visitedList[source] = false;
+        return allPaths
+    }
 
-    //             }
-    //         }
-    //     }
 
-    //     return null;
-    // }
+
+    public getNthLevelVertices(targetLevel: number) {
+        const queue: number[] = [];
+        const visited: boolean[] = [];
+        let result: number[] = []
+        let startVertex = 0;
+        queue.push(startVertex);
+        visited[startVertex] = true;
+
+        while (queue.length > 0) {
+            let currentLevel = queue.length;
+
+            for (let i = 0; i < currentLevel; ++i) {
+                const vertex: number = queue.shift();
+                
+                for (let neighbor of this.collection[vertex]) {
+                    if (!visited[neighbor]) {
+                        queue.push(neighbor);
+                        visited[neighbor] = true;
+                    }
+                }
+
+                if (currentLevel == targetLevel) {
+                    result.push(vertex);
+                }
+            }
+            ++currentLevel;
+        }
+        return result;
+    }
 
 
     public removeEdges(v: number) {
@@ -262,7 +263,41 @@ graph.addEdge(3, 5);
 // graph.removeEdges(2);
 // console.log(graph.collection);
 // console.log(graph.getShortestPath(1, 5));
-graph.bfsTraverse_recursive();
+// graph.bfsTraverse_recursive();
 // graph.dfsTraverse_iterative()
+// console.log(graph.getShortestPath(0, 3));
+// console.log(graph.getNthLevelVertices(3));
+
+console.log(graph.allPossiblePaths(0, 3))
 
 
+
+/**
+ *         while (queue.length > 0) {
+            let levelCount = queue.length;
+
+            for (let i = 0; i < levelCount; ++i) {
+                let vertex = queue.shift();
+
+                for (const neighbor of this.collection[vertex]) {
+                    if (!visited[neighbor]) {
+                        queue.push(neighbor);
+                        visited[neighbor] = true;
+                        parents[neighbor] = vertex;
+                    }
+                }
+
+                if (vertex == destination) {
+                    let result: number[] = [];
+                    result.push(vertex);
+                    
+                    while (vertex != source) {
+                        let parent = parents[vertex];
+                        result.push(parent);
+                        vertex = parent
+                    }
+                    return result.reverse();
+                }
+            }
+        }
+ */
