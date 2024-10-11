@@ -27,7 +27,7 @@ function selectionSort(arr) {
             }
         }
 
-        if (min != arr[i]) {
+        if (min !== arr[i]) {
             [arr[i], min] = [min, arr[i]];
         }
     }
@@ -66,7 +66,7 @@ function countingSort(arr) {
 
     let arrIndex = 0;
     for (let i = 0; i < max + 1; ++i) {
-        if (countArr[i] != 0) {
+        if (countArr[i] !== 0) {
             for (let j = 0; j < countArr[i]; ++j) {
                 arr[arrIndex++] = i; 
             }

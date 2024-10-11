@@ -1,7 +1,6 @@
 
 
 
-
 export class Stack<T> {
     private arr: T[];
     private capacity: number;
@@ -29,7 +28,7 @@ export class Stack<T> {
     }
 
     public isEmpty(): boolean {
-        return this.top < 0 ? true : false;
+        return this.top < 0;
     }
 
     public getTop(): T  {

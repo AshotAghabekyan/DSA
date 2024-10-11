@@ -60,8 +60,6 @@ export class Queue<T>  {
             console.log(this.arr[i]);
         }
     }
-
-    
 }
 
 

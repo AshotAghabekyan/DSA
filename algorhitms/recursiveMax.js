@@ -1,7 +1,7 @@
 
 
 function getRecursiveMax(arr, index = 1, maxNumber = arr[0]) {
-    if (index == arr.length) {
+    if (index === arr.length) {
         return maxNumber;
     }
 

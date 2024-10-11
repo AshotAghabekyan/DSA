@@ -15,8 +15,6 @@ export class TreeNode {
 
 
 
-
-
 export class BST {
     private root: TreeNode;
 
@@ -25,7 +23,7 @@ export class BST {
     };
 
     public isEmpty(): boolean {
-        return this.root? false : true;
+        return Boolean(this.root);
     }
 
     public insert_recursive(data: number): TreeNode {
@@ -35,7 +33,7 @@ export class BST {
 
     private _insert_recursive(data: number, node: TreeNode): TreeNode {
         if (!node) {
-            return new TreeNode(data); 
+            return new TreeNode(data);
         }
 
         if (node.key > data) {

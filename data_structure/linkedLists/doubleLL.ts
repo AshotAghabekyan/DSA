@@ -12,7 +12,6 @@ class NodeDLL<T> {
     }
 }
 
-
 export class DLL<T> {
     private head: NodeDLL<T> = new NodeDLL(null);
     private tail: NodeDLL<T> = new NodeDLL(null);
@@ -81,15 +80,15 @@ export class DLL<T> {
 
 
 
-const dll: DLL<number> = new DLL<number>();
+// const dll: DLL<number> = new DLL<number>();
 // console.log(dll);
-dll.insertFront(10);
-dll.insertFront(20);
-dll.insertTail(30);
-dll.popTail()
-dll.popTail()
-dll.popTail()
+// dll.insertFront(10);
+// dll.insertFront(20);
+// dll.insertTail(30);
+// dll.popTail()
+// dll.popTail()
+// dll.popTail()
 // dll.popTail()
 
-
-dll.print();
+// 
+// dll.print();
