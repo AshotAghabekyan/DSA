@@ -101,6 +101,11 @@ export class Heap {
     public isEmpty() {
         return this.currentSize == 0;
     }
+
+
+    public getRoot() {
+        return this.arr[0];
+    }
 }
 
 
