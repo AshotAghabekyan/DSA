@@ -53,6 +53,7 @@ export class BST {
             if (curr.key > data) {
                 if (!curr.left) {
                     curr.left = new TreeNode(data);
+                    break;
                 } else {
                     curr = curr.left;
                 }
@@ -61,6 +62,7 @@ export class BST {
             else if (curr.key < data) {
                 if (!curr.right) {
                     curr.right = new TreeNode(data);
+                    break;
                 } else {
                     curr = curr.right;
                 }
@@ -74,6 +76,92 @@ export class BST {
         return this.root;
     }
 
+
+    public delete(key: number) {
+        let curr: TreeNode = this.root;
+        let prev: TreeNode = null;
+
+        while (curr && curr.key != key) {
+            prev = curr;
+
+            if (curr.key > key) {
+                curr = curr.left;
+            }
+            else {
+                curr = curr.right;
+            }
+        }
+
+        if (!curr) {
+            return curr;
+        }
+
+        if (!curr.left || !curr.right) {
+            const tmpNode: TreeNode = curr.left == null? curr.right : curr.left;
+
+            if (prev.left == curr) {
+                prev.left = tmpNode;
+            }
+            else {
+                prev.right = tmpNode;
+            }
+        }
+        else {
+            let successorPrev = null;
+            let successor = curr.right;
+            while (successor.left) {
+                successorPrev = successor;
+                successor = successor.left;
+            }
+
+            if (!successorPrev) {
+                curr.right = successor.right;
+            }
+            else {
+                successorPrev.left = null;
+            }
+            [curr.key, successor.key] = [successor.key, curr.key];
+        }
+        return this.root;
+    }
+
+
+    public delete_recursive(key: number, root: TreeNode) {
+        if (!root) {
+            return root;
+        }
+
+        if (key < root.key) {
+            root.left = this.delete_recursive(key, root.left);
+        }
+        else if (key > root.key) {
+            root.right = this.delete_recursive(key, root.right);
+        }
+
+        else {
+            if (!root.left) {
+                return root.right;
+            }
+
+            else if (!root.right) {
+                return root.left
+            }
+
+            root.key = this.getSuccessor(root.right).key;
+            root.right = this.delete_recursive(root.key, root.right);
+        }
+
+        return root;
+    }
+
+
+    public getSuccessor(root: TreeNode) {
+        let curr = root;
+        while (curr.left) {
+            curr = curr.left
+        }
+        return curr;
+    }
 
     private _getHeight(node: TreeNode): number { //
         if (!node) {
@@ -112,6 +200,7 @@ export class BST {
 
             height = Math.max(left + rigth) + 1;
         }
+        return height;
     }
 
 
@@ -363,6 +452,63 @@ export class BST {
     }
 
 
+    public bfsTraverse_recursive(visitorFunc: (value:number) => void, queue: TreeNode[] = [this.root]) {
+        if (queue.length == 0) {
+            return;
+        }
+
+        const node = queue.shift();
+        if (node.left) {
+            queue.push(node.left);
+        }
+        if (node.right) {
+            queue.push(node.right);
+        }
+        visitorFunc(node.key);
+        this.bfsTraverse_recursive(visitorFunc, queue);
+    }
+
+
+    public bfsTraverse_modernized(root: TreeNode): number[][] {
+        if (!root) {
+            return [];
+        }
+    
+        let stack: TreeNode[] = [];
+        let result: number[][] = [];
+        stack.push(root);
+        result.push([root.key])
+    
+        while (stack.length > 0) {
+            let curr: TreeNode = stack.pop();
+    
+    
+            if (curr.right) {
+                stack.push(curr.right);
+            }
+    
+            if (curr.left) {
+                stack.push(curr.left);
+            }
+    
+            if (curr.left || curr.right) {
+                if (!curr.left && curr.right) {
+                    result.push([curr.right.key])
+                }
+    
+                else if (!curr.right && curr.left) {
+                    result.push([curr.left.key]);
+                }
+                else {
+                    result.push([curr.left.key, curr.right.key])
+                }
+            }
+        }
+        return result;
+    };
+
+
+
     public static isSameTree(tree1: TreeNode, tree2: TreeNode): boolean {
         const stack1: TreeNode[] = [];
         const stack2: TreeNode[] = [];
@@ -395,7 +541,6 @@ export class BST {
         
         return stack1.length === 0 && stack2.length === 0;
     }
-
 
 
     public recoverTree(root: TreeNode): TreeNode {
@@ -439,79 +584,17 @@ export class BST {
     }
 
 
-
-    public bfsTraverse_m(root: TreeNode): number[][] {
-        if (!root) {
-            return [];
-        }
-    
-        let stack: TreeNode[] = [];
-        let result: number[][] = [];
-        stack.push(root);
-        result.push([root.key])
-    
-        while (stack.length > 0) {
-            let curr: TreeNode = stack.pop();
-    
-    
-            if (curr.right) {
-                stack.push(curr.right);
-            }
-    
-            if (curr.left) {
-                stack.push(curr.left);
-            }
-    
-            if (curr.left || curr.right) {
-                if (!curr.left && curr.right) {
-                    result.push([curr.right.key])
-                }
-    
-                else if (!curr.right && curr.left) {
-                    result.push([curr.left.key]);
-                }
-                else {
-                    result.push([curr.left.key, curr.right.key])
-                }
-            }
-        }
-        return result;
-    };
-
-
 }
 
 
-
-function insert(data: number, node: TreeNode) {
-    if (!node) {
-        return new TreeNode(data); 
-    }
-
-    if (node.key > data) {
-        node.left = this._insert_recursive(data, node.left); 
-    } else if (node.key < data) {
-        node.right = this._insert_recursive(data, node.right); 
-    }
-    
-    return node; 
-}
-
-
-function uniqueTrees(n: number): TreeNode[] {
-    if (n == 1) {
-        return [];
-    }
-
-    let result: TreeNode[] = [];
-
-    for (let i = 1; i <= n; ++i) {
-        let root: TreeNode = new TreeNode(i);
-        for (let j = 1; j <= n; ++j) {
-            insert(j, root);
-        }
-        result.push(root);
-    }
-
-    return result;
-}
+const bst: BST = new BST(10);
+bst.insert(8);
+bst.insert(6);
+bst.insert(12);
+bst.insert(15);
+bst.insert(11);
+bst.insert(16);
+// bst.delete(12);
+bst.bfsTraverse_recursive((value) => console.log(value));
+// bst.delete_recursive(12, bst.getRootData())
+// bst.preorderTraverse();
