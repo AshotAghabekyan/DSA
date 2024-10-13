@@ -66,10 +66,10 @@ export class UndirectedGraph {
             const vertex: number = queue.peek();
             queue.dequeue();
 
-            for (let i = 0; i < this.collection[vertex].length; ++i) {
-                if (!visitedList[this.collection[vertex][i]]) {
-                    visitedList[this.collection[vertex][i]] = true;                    
-                    queue.enqueue(this.collection[vertex][i]);
+            for (const neighbor of this.collection[vertex]) {
+                if (!visitedList[neighbor]) {
+                    visitedList[neighbor] = true;                    
+                    queue.enqueue(neighbor);
                 }
             }
             console.log("vertex-->", vertex);
@@ -241,22 +241,22 @@ export class UndirectedGraph {
 }
 
 
-const graph: UndirectedGraph = new UndirectedGraph(10);
+// const graph: UndirectedGraph = new UndirectedGraph(10);
 
-graph.addVertex(0);
-graph.addVertex(1);
-graph.addVertex(2);
-graph.addVertex(3);
-graph.addVertex(4);
-graph.addVertex(5)
+// graph.addVertex(0);
+// graph.addVertex(1);
+// graph.addVertex(2);
+// graph.addVertex(3);
+// graph.addVertex(4);
+// graph.addVertex(5)
 
-graph.addEdge(0, 2);
-graph.addEdge(0, 4);
-graph.addEdge(2, 1);
-graph.addEdge(1, 3);
-graph.addEdge(3, 4);
-graph.addEdge(4, 5);
-graph.addEdge(3, 5);
+// graph.addEdge(0, 2);
+// graph.addEdge(0, 4);
+// graph.addEdge(2, 1);
+// graph.addEdge(1, 3);
+// graph.addEdge(3, 4);
+// graph.addEdge(4, 5);
+// graph.addEdge(3, 5);
 // console.log(graph.getVerticiesOfLevel(3));
 // console.log(graph.)
 // graph.dfsTraverse();
@@ -268,36 +268,9 @@ graph.addEdge(3, 5);
 // console.log(graph.getShortestPath(0, 3));
 // console.log(graph.getNthLevelVertices(3));
 
-console.log(graph.allPossiblePaths(0, 3))
+// console.log(graph.allPossiblePaths(0, 3))
 
 
 
-/**
- *         while (queue.length > 0) {
-            let levelCount = queue.length;
 
-            for (let i = 0; i < levelCount; ++i) {
-                let vertex = queue.shift();
 
-                for (const neighbor of this.collection[vertex]) {
-                    if (!visited[neighbor]) {
-                        queue.push(neighbor);
-                        visited[neighbor] = true;
-                        parents[neighbor] = vertex;
-                    }
-                }
-
-                if (vertex == destination) {
-                    let result: number[] = [];
-                    result.push(vertex);
-                    
-                    while (vertex != source) {
-                        let parent = parents[vertex];
-                        result.push(parent);
-                        vertex = parent
-                    }
-                    return result.reverse();
-                }
-            }
-        }
- */

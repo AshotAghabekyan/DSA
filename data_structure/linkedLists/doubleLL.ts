@@ -65,10 +65,6 @@ export class DLL<T> {
     }
 
 
-    // public size(): number {}
-    // public isEmpty(): boolean {};
-
-    // public clear(): void {};
     public print(): void {    
         let curr = this.head.next;
         while (curr.next) {

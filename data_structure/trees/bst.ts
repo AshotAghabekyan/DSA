@@ -543,7 +543,7 @@ export class BST {
     }
 
 
-    public recoverTree(root: TreeNode): TreeNode {
+    public static recoverTree(root: TreeNode): TreeNode {
         let result: TreeNode[] = [];
         let stack: TreeNode[] = [];
         let curr: TreeNode = root;
@@ -584,6 +584,41 @@ export class BST {
     }
 
 
+    public static isBST(root: TreeNode) {
+        if (!root) {
+            return true;
+        }
+
+        if (root.left && BST.maxValue(root.left) >= root.key) {
+            return false;
+        }
+
+        if (root.right && BST.minValue(root.right) <= root.key) {
+            return false;
+        }
+
+        return BST.isBST(root.left) && BST.isBST(root.right);
+    }
+
+
+    private static minValue(root: TreeNode) {
+        let curr = root;
+
+        while (curr.right) {
+            curr = curr.right;
+        }
+        return curr.key;
+    }
+
+    private static maxValue(root: TreeNode) {
+        let curr = root;
+        
+        while (curr.left) {
+            curr = curr.left;
+        }
+        return curr.key;
+    }
+
 }
 
 
@@ -594,7 +629,8 @@ bst.insert(12);
 bst.insert(15);
 bst.insert(11);
 bst.insert(16);
+console.log(BST.isBST(bst.getRootData()))
 // bst.delete(12);
-bst.bfsTraverse_recursive((value) => console.log(value));
+// bst.bfsTraverse_recursive((value) => console.log(value));
 // bst.delete_recursive(12, bst.getRootData())
 // bst.preorderTraverse();
