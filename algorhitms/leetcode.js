@@ -570,34 +570,127 @@ Example 2:
 //------------------------------------------------------------------------------------
 
 
-function reverseList(head) {
-   if (!head || head.next) {
-      return;
-   }
+// function reverseList(head) {
+//    if (!head || !head.next) {
+//       return;
+//    }
 
-   let fast = head;
-   let slow = head;
-   while (fast!= null) {
-      fast = fast.next.next;
-      slow = slow.next;
-   }
+//    let fast = head;
+//    let slow = head;
+//    while (fast!= null) {
+//       fast = fast.next.next;
+//       slow = slow.next;
+//    }
 
-   let curr = slow;
-   let prev = null;
-   let next = null;
+//    let curr = slow;
+//    let prev = null;
+//    let next = null;
 
-   while (curr != null) {
-      next = curr.next;
-      curr.next = prev;
-      prev = curr;
-   }
+//    while (curr != null) {
+//       next = curr.next;
+//       curr.next = prev;
+//       prev = curr;
+//    }
 
-   tmp1 = head;
-   tmp2 = null;
+//    tmp1 = head;
+//    tmp2 = null;
 
-   while (slow != null) {
-      tmp2 = tmp1.next;
-      tmp1.next = prev;
-   }
+//    while (slow != null) {
+//       tmp2 = tmp1.next;
+//       tmp1.next = prev;
+//    }
 
-}
+// }
+
+
+
+//------------------------------------------------------------------------------------
+
+// function maxSubarray(str) {
+//    let maxSubArray = ""
+
+//    for (let i = 0; i < str.length; ++i) {
+//       let currMaxSubArray = "";
+//       let chars = {};
+
+//       for (let j = i; j < str.length; ++j) {
+//          if (!chars[str[j]]) {
+//             currMaxSubArray += str[j];
+//             chars[str[j]] = true;
+//          }
+//          else {
+//             break;
+//          }
+//       }
+//       if (currMaxSubArray.length > maxSubArray.length) {
+//          maxSubArray = currMaxSubArray;
+//       }
+//    }
+//    return maxSubArray
+// }
+
+
+// console.log(maxSubarray("abcdagh"));
+
+
+
+///
+
+// function getMaxProfit(prices) {
+//    let minBuy = prices[0];
+//    let maxSale = prices[0];
+
+//    for (let i = 0; i < prices.length; ++i) {
+//       if (prices[i] > maxSale) {
+//          maxSale = prices[i];
+//       }
+
+//       if (prices[i] < minBuy) {
+//          minBuy = prices[i];
+//          maxSale = 0;
+//       }
+
+//    }
+//    return maxSale - minBuy;
+// }
+
+
+// let prices = [1,7,5,3,6,4];
+// console.log(getMaxProfit(prices));
+
+
+// function partition(arr, left, right) {
+//    let low = left;
+//    let high = right -1;
+//    let pivot = arr[right];
+
+//    while (low <= high) {
+//       while (arr[low] < pivot) {
+//          ++low;
+//       }
+
+//       while (arr[high] > pivot) {
+//          --high;
+//       }
+
+//       if (low < high) {
+//          [arr[low], arr[high]] = [arr[high], arr[low]];
+//       }
+//    }
+//    [arr[low], arr[right]] = [arr[right], arr[low]];
+//    return low;
+// }
+
+
+// function quickSort(arr, left = 0, right = arr.length - 1) {
+//    if (left <= right) {
+//       let pivot = partition(arr, left, right);
+//       quickSort(arr, left, pivot -1);
+//       quickSort(arr, pivot + 1, right);
+//    }
+
+// }
+
+// let arr = [5,31,4,7,1,9]
+// quickSort(arr);
+// console.log(arr);
