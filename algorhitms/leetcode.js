@@ -634,29 +634,29 @@ Example 2:
 
 
 
-///
+//////////////////////////////////////////
 
 // function getMaxProfit(prices) {
 //    let minBuy = prices[0];
-//    let maxSale = prices[0];
+//    let profit = 0;
 
 //    for (let i = 0; i < prices.length; ++i) {
 //       if (prices[i] > maxSale) {
 //          maxSale = prices[i];
 //       }
 
-//       if (prices[i] < minBuy) {
-//          minBuy = prices[i];
-//          maxSale = 0;
+//       if (prices[i] - minBuy > profit) {
+//          profit = prices[i] - minBuy
 //       }
-
 //    }
-//    return maxSale - minBuy;
+//    return profit;
 // }
 
 
 // let prices = [1,7,5,3,6,4];
 // console.log(getMaxProfit(prices));
+
+//////////////////////////////////////////
 
 
 // function partition(arr, left, right) {

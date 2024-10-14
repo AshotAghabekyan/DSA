@@ -69,16 +69,16 @@ export class SLL {
     }
 
     reverse() {
-        let dummyNode = new Node();
+        let dummyNode = null;
         let curr = this.head;
 
         while (curr != null) {
             let nextTmp = curr.next;
-            curr.next = dummyNode.next;
-            dummyNode.next = curr;
+            curr.next = dummyNode;
+            dummyNode = curr;
             curr = nextTmp;
         }
-        this.head = dummyNode.next;
+        this.head = dummyNode;
     }
 
     merge(other_list) {
@@ -120,10 +120,10 @@ singleLL1.push_front(3);
 singleLL1.push_front(4);
 singleLL1.push_front(2);
 
-let singleLL2 = new SLL();
-singleLL2.push_front(4);
-singleLL2.push_front(6);
-singleLL2.push_front(5);
-// singleLL.print()
-// singleLL.reverse()
-// singleLL.print()
+// let singleLL2 = new SLL();
+// singleLL2.push_front(4);
+// singleLL2.push_front(6);
+// singleLL2.push_front(5);
+// singleLL1.print()
+// singleLL1.reverse()
+// singleLL1.print()

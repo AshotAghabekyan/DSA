@@ -618,7 +618,6 @@ export class BST {
         }
         return curr.key;
     }
-
 }
 
 
@@ -629,7 +628,7 @@ bst.insert(12);
 bst.insert(15);
 bst.insert(11);
 bst.insert(16);
-console.log(BST.isBST(bst.getRootData()))
+// console.log(bst.bfsTraverse_modernized(bst.getRootData()))
 // bst.delete(12);
 // bst.bfsTraverse_recursive((value) => console.log(value));
 // bst.delete_recursive(12, bst.getRootData())

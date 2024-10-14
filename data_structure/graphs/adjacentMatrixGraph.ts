@@ -2,13 +2,21 @@
 
 
 export class AdjacentMatrixGraph {
-    private matrix: number[][] = [];
+    private matrix: number[][]
 
     constructor(size: number) {
-        this.matrix = Array.from({ length: size }, () => Array(size).fill(0));
+        this.matrix = []
     }
 
     public addEdge(vertex1: number, vertex2: number) {
+        if (!this.matrix[vertex1]) {
+            this.matrix[vertex1] = [];
+        }
+
+        if (!this.matrix[vertex2]) {
+            this.matrix[vertex2] = [];
+        }
+
         this.matrix[vertex1][vertex2] = 1;
         this.matrix[vertex2][vertex1] = 1; 
     }
