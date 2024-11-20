@@ -187,7 +187,6 @@ export class AVL {
     }
 
     
-    
     public inorder(root: AvlTreeNode): void {
         if (!root) {
             return;
