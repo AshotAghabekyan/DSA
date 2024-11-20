@@ -1,4 +1,4 @@
-import { TreeNode } from "./bst.ts";
+import { TreeNode } from "./bst";
 
 enum RbtColor {Red, Black};
 

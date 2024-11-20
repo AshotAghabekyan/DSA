@@ -122,6 +122,3 @@ export class Deque<T> {
 
 }
 
-
-const deque = new Deque(10);
-console.log(deque.size());

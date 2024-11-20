@@ -1,4 +1,4 @@
-import { TreeNode } from "./bst.ts";
+import { TreeNode } from "./bst";
 
 
 class AvlTreeNode extends TreeNode {
@@ -162,10 +162,9 @@ export class AVL {
         root.height = Math.max(this.getHeight(root.left), this.getHeight(root.right)) + 1;
         return tmp;
     }
-
     
 
-    private getHeight(node: AvlTreeNode): number { //
+    private getHeight(node: AvlTreeNode): number { 
         if (!node) {
             return 0; 
         }
@@ -201,14 +200,12 @@ export class AVL {
 }
 
 
-// const avl: AVL = new AVL(10);
-
-
-// avl.insert(8);
-// avl.insert(11)
-// avl.insert(7);
-// avl.insert(6);
-// avl.insert(4);
+const avl: AVL = new AVL(10);
+avl.insert(8);
+avl.insert(7)
+avl.insert(15);
+avl.insert(8);
+avl.insert(9);
 // console.log(avl.getRoot());
 // console.log("is balanced -->", avl.isBalanced(avl.getRoot()))
-// // avl.inorder(avl.getRoot());
+// avl.inorder(avl.getRoot());

@@ -1,5 +1,5 @@
-import {Stack} from "../stack/stack.ts";
-import {Queue} from "../queue/queue.ts";
+import {Stack} from "../stack/stack";
+import {Queue} from "../queue/queue";
 
 export class TreeNode {
     public left: TreeNode;
@@ -113,7 +113,7 @@ export class BST {
                 successorPrev = successor;
                 successor = successor.left;
             }
-
+ 
             if (!successorPrev) {
                 curr.right = successor.right;
             }
@@ -214,6 +214,7 @@ export class BST {
         count += this.getNumberOfNodes_recursive(node.right);
         return count;
     }
+
 
     public getNumberOfNodes(): number {
         const stack: Stack<TreeNode> = new Stack<TreeNode>(100);
@@ -404,7 +405,6 @@ export class BST {
         const size: number = this.getNumberOfNodes();
         const stack: Stack<TreeNode> = new Stack<TreeNode>(size);
         const resStack: Stack<TreeNode> = new Stack<TreeNode>(size);
-        
         stack.push(this.root);
 
         while (stack.getSize() > 0) {
@@ -429,7 +429,7 @@ export class BST {
     }
 
 
-    public bfsTraverse(visitorFunc: (value: number) => void) {
+    public bfsTraverse(visitorFunc: (value: number) => void): void {
         const size: number = this.getNumberOfNodes();
         const queue: Queue<TreeNode> = new Queue<TreeNode>(size);
         queue.enqueue(this.root);
@@ -584,7 +584,7 @@ export class BST {
     }
 
 
-    public static isBST(root: TreeNode) {
+    public static isBST(root: TreeNode): boolean {
         if (!root) {
             return true;
         }
@@ -598,6 +598,32 @@ export class BST {
         }
 
         return BST.isBST(root.left) && BST.isBST(root.right);
+    }
+
+
+    public static isBST_iterative(root: TreeNode): boolean {
+        const stack: TreeNode[] = [];
+        let curr: TreeNode = root;
+
+        while (stack.length > 0) {
+            
+            while (curr) {
+                if (curr.left && BST.maxValue(curr.left) > curr.key) {
+                    return false;
+                }
+
+                if (curr.right && BST.minValue(curr.right) < curr.key) {
+                    return false;
+                }
+                stack.push(curr);
+                curr = curr.left;
+            }
+
+            const parent: TreeNode = stack.pop();
+            curr = parent.right;
+        }
+
+        return true;
     }
 
 
@@ -628,6 +654,7 @@ bst.insert(12);
 bst.insert(15);
 bst.insert(11);
 bst.insert(16);
+// console.log(BST.isBST_iterative(bst.getRootData()));
 // console.log(bst.bfsTraverse_modernized(bst.getRootData()))
 // bst.delete(12);
 // bst.bfsTraverse_recursive((value) => console.log(value));

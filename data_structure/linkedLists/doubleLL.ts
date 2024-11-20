@@ -31,7 +31,6 @@ export class DLL<T> {
     }
 
 
-
     public popFront(): void {
         if (this.head.next == this.tail) {
             throw new Error("list is empty");

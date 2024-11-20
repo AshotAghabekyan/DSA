@@ -1,14 +1,4 @@
 {
-  "dependencies": {
-    "@swc/wasm-typescript": "^1.7.3",
-    "clear": "^0.1.0"
-  },
-  "type": "module",
-  "devDependencies": {
-    "@types/node": "^20.14.12",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.5.4"
-  },
   "name": "dsa",
   "version": "1.0.0",
   "main": "index.js",
@@ -18,5 +8,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "clear": "^0.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.12",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  }
 }
